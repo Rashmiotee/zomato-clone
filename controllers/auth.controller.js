@@ -219,13 +219,12 @@ exports.logoutCustomer = asyncHandler(async (req, res) => {
 
 
 
-exports.loginRider = async (req, res) => {
-    const { email, password } = req.body
-    console.log(req.body);
+exports.loginRider = asyncHandler(async (req, res) => {
+    const { userName, password } = req.body
 
-    const result = await Resturant.findOne({ email })
+    const result = await Rider.findOne({ $or: [{ email: userName }, { mobile: userName }] })
     if (!result) {
-        return res.status(401).json({ message: "invalid credentials email" })
+        return res.status(400).json({ message: "invalid credentials" })
     }
     const isVerify = await bcrypt.compare(password, result.password)
     if (!isVerify) {
@@ -238,6 +237,7 @@ exports.loginRider = async (req, res) => {
         maxAge: 1000 * 60 * 60 * 24,
         httpOnly: true,
         secure: process.env.NODE_ENV === "production"
+
     })
 
     res.json({
@@ -248,7 +248,7 @@ exports.loginRider = async (req, res) => {
             infoComplete: result.infoComplete,
         }
     })
-}
+})
 // rider login
 exports.logoutRider = asyncHandler(async (req, res) => {
     res.clearCookie("zomato-rider")
