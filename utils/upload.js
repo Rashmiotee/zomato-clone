@@ -8,7 +8,12 @@ const resturantUpload = multer({ storage }).fields([
     { name: "certificate", maxCount: 1 },
     { name: "hero", maxCount: 1 }
 ])
-//                                              👇fronted key resturantMenu
+//   
+//                                            👇fronted key resturantMenu
+const riderUpload = multer({ storage }).fields([
+    { name: "licence", maxCount: 1 },
+    { name: "rc", maxCount: 1 }
+])
 const menuUpload = multer({ storage }).array("image")
 const updateMenuUpload = multer({ storage }).single("image")
-module.exports = { resturantUpload, menuUpload, updateMenuUpload }
+module.exports = { resturantUpload, menuUpload, updateMenuUpload, riderUpload }
