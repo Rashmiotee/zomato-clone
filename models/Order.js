@@ -8,7 +8,10 @@ const orderSchema = new mongoose.Schema({
         qty: { type: Number, required: true },
     }],
 
-    rider: { type: mongoose.Types.ObjectId, ref: "rider" },
+    rider: {
+        type: mongoose.Types.ObjectId,
+        ref: "rider"
+    },
     status: {
         type: String,
         default: "placed",
