@@ -19,6 +19,6 @@ exports.updateOrderStatus = asyncHandler(async (req, res) => {
 
     const { oid } = req.params
     await Order.findByIdAndUpdate(oid, { status: req.body.status })
-
+    io.emit("status-update")
     res.json({ message: "order update status" })
 })
