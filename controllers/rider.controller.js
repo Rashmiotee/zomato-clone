@@ -1,7 +1,8 @@
 
 const asyncHandler = require("express-async-handler")
 const { checkEmpty } = require("../utils/checkEmpty")
-const Order = require("../models/Order")
+const Order = require("../models/Order");
+const { io } = require("../socket/socket");
 
 exports.getOrders = asyncHandler(async (req, res) => {
     console.log(req.user);
