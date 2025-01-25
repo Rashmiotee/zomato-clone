@@ -145,6 +145,9 @@ exports.updateAdminRider = asyncHandler(async (req, res) => {
 exports.updateRiderAccount = asyncHandler(async (req, res) => {
     const { rid } = req.params
     await Rider.findByIdAndUpdate(rid, { isActive: req.body.isActive })
+    if (!req.body.isActive) {
+        io.emit("rider-logout")
+    }
     res.json({ messgae: "rider account update" })
 })
 
@@ -153,7 +156,7 @@ exports.getAdminActiveRider = asyncHandler(async (req, res) => {
     const result = await Rider
         .find({ isActive: true })
         .select("-password -createdAt -updatedAt -__v")
-    io.emit("inactive-rider")
+
     res.json({ message: "rider fetch success", result })
 })
 exports.assignRider = asyncHandler(async (req, res) => {
