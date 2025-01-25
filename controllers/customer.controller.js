@@ -73,7 +73,17 @@ exports.placeOrder = asyncHandler(async (req, res) => {
 })
 exports.getOrders = asyncHandler(async (req, res) => {
     const result = await Order
-        .find({ customer: req.user })
+        .find({ customer: req.user, status: { $ne: "delivered" } })
+        .select("-customer -createdAt -updatedAt -__v")//select find pay lagtey je nahi patvycha ahe tey selct mdhe takhych
+        .populate("rider", "name mobile") //populate main second arugument//joins 
+        .populate("resturant", "name hero") //populate main second arugument//joins 
+        .populate("items.dish", "name type image price")//je patvycha ahe tey populate mdhe
+        .sort({ createdAt: -1 })
+    res.json({ message: "order place success", result })
+})
+exports.getHistory = asyncHandler(async (req, res) => {
+    const result = await Order
+        .find({ customer: req.user, status: "delivered" })
         .select("-customer -createdAt -updatedAt -__v")//select find pay lagtey je nahi patvycha ahe tey selct mdhe takhych
         .populate("rider", "name mobile") //populate main second arugument//joins 
         .populate("resturant", "name hero") //populate main second arugument//joins 
