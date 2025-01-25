@@ -8,7 +8,7 @@ exports.getOrders = asyncHandler(async (req, res) => {
     console.log(req.user);
 
     const result = await Order
-        .find({ rider: req.user })
+        .find({ rider: req.user, status: { $ne: "delivered" } })
         .select("-rider -createdAt -updatedAt -__v")//select find pay lagtey je nahi patvycha ahe tey selct mdhe takhych
         .populate("resturant", "name hero mobile address") //populate main second arugument//joins 
         .populate("customer", "name mobile address") //populate main second arugument//joins 

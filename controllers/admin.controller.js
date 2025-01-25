@@ -153,7 +153,7 @@ exports.getAdminActiveRider = asyncHandler(async (req, res) => {
     const result = await Rider
         .find({ isActive: true })
         .select("-password -createdAt -updatedAt -__v")
-
+    io.emit("inactive-rider")
     res.json({ message: "rider fetch success", result })
 })
 exports.assignRider = asyncHandler(async (req, res) => {
